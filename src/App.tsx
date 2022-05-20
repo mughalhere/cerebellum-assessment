@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 
 // ------ FORMS ------
 import Budget from "./forms/Budget";
