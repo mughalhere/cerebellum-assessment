@@ -1,4 +1,12 @@
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
+import {
+  Radio,
+  RadioChangeEvent,
+  InputNumber,
+  message,
+  Button,
+  Divider,
+} from "antd";
 import { FormEnum, Data } from "../App";
 
 interface State {
@@ -9,7 +17,7 @@ interface State {
   /**
    * the budget entered by the user (default is 0)
    */
-  budget: number;
+  budget: string;
   /**
    * the error to show if the user press the next button without selecting an option
    */
@@ -27,63 +35,75 @@ const Budget = ({ handleNext }: BudgetProps): JSX.Element => {
   const [state, setState] = useState<State>({
     option: null,
     error: "",
-    budget: 0,
+    budget: "",
   });
   const { budget, option, error } = state;
 
-  const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleRadioChange = (event: RadioChangeEvent) => {
     setState((current) => ({
       ...current,
       option: event.target.id === "yes" ? true : false,
     }));
   };
 
-  const handleBudgetChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleBudgetChange = (value: string) => {
     setState((current) => ({
       ...current,
-      budget: Number(event.target.value),
+      budget: !Number.isNaN(value) ? value : current.budget,
     }));
   };
 
   const handleClick = () => {
     if (option === null) {
-      setState((current) => ({
-        ...current,
-        error: "Please select yes or not",
-      }));
+      message.error("Please select yes or not");
     } else {
-      handleNext(FormEnum.SANITARYPRODUCTS, {
-        budget: option ? budget : null,
-      });
+      if (!option) {
+        handleNext(FormEnum.SANITARYPRODUCTS, {
+          budget: null,
+        });
+      } else if (budget && !Number.isNaN(budget)) {
+        handleNext(FormEnum.SANITARYPRODUCTS, {
+          budget: option ? Number(budget) : null,
+        });
+      } else {
+        message.error("Please enter a number");
+      }
     }
   };
 
   return (
     <>
       <p>Do you have a budget ?</p>
-      <label htmlFor="yes">Yes</label>
-      <input
+      <Radio
         id="yes"
         type="radio"
         checked={option === true}
         onChange={handleRadioChange}
-      />
-      <br />
-      <label htmlFor="No">No</label>
-      <input
+      >
+        Yes
+      </Radio>
+      <Radio
         id="No"
         type="radio"
         checked={option === false}
         onChange={handleRadioChange}
-      />
-      <br />
+      >
+        No
+      </Radio>
+      <Divider />
       {option && (
-        <input type="number" value={budget} onChange={handleBudgetChange} />
+        <InputNumber
+          type="number"
+          value={budget}
+          onChange={handleBudgetChange}
+        />
       )}
       <br />
       {error}
       <br />
-      <button onClick={handleClick}>Next</button>
+      <Button type="primary" onClick={handleClick}>
+        Next
+      </Button>
     </>
   );
 };

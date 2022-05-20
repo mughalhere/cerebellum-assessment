@@ -1,4 +1,5 @@
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
+import { Radio, RadioChangeEvent, Button, Divider } from "antd";
 import { FormEnum, PriceRange, Data } from "../../App";
 import MaterialSelect from "./MaterialSelect";
 import RangeSelect from "./RangeSelect";
@@ -10,8 +11,8 @@ export enum StepsEnum {
 }
 
 export enum MaterialEnum {
-  CERAMIC = "Ceramic",
-  MARBEL = "Marbel",
+  CERAMIC = "Ceramic Floor Tiling",
+  MARBEL = "Marbel Floor Tiling",
 }
 
 export interface Material extends PriceRange {
@@ -58,7 +59,7 @@ const FloorTiling = ({ handleNext }: FloorTilingProps): JSX.Element => {
     }));
   };
 
-  const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleRadioChange = (event: RadioChangeEvent) => {
     setState((current) => ({
       ...current,
       option: event.target.id === "yes",
@@ -73,7 +74,7 @@ const FloorTiling = ({ handleNext }: FloorTilingProps): JSX.Element => {
           activeStep: StepsEnum.MATERIALSELECT,
         }));
       } else {
-        handleNext(FormEnum.BATHROOMSIZE, {});
+        handleNext(FormEnum.RESULT, {});
       }
     }
   };
@@ -97,23 +98,26 @@ const FloorTiling = ({ handleNext }: FloorTilingProps): JSX.Element => {
           [StepsEnum.CHOICE]: (
             <>
               <p>Do you want to change Floor tilings ?</p>
-              <label htmlFor="yes">Yes</label>
-              <input
+              <Radio
                 id="yes"
                 type="radio"
-                name="floorTiling"
+                checked={option === true}
                 onChange={handleRadioChange}
-              />
-              <br />
-              <label htmlFor="No">No</label>
-              <input
+              >
+                Yes
+              </Radio>
+              <Radio
                 id="No"
                 type="radio"
-                name="floorTiling"
+                checked={option === false}
                 onChange={handleRadioChange}
-              />
-              <br />
-              <button onClick={handleButtonClick}>Next</button>
+              >
+                No
+              </Radio>
+              <Divider />
+              <Button type="primary" onClick={handleButtonClick}>
+                Next
+              </Button>
             </>
           ),
           [StepsEnum.MATERIALSELECT]: (

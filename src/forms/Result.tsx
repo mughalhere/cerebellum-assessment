@@ -1,10 +1,31 @@
 import { useEffect, useState } from "react";
+import { Row, Col, Space, Table } from "antd";
 import { Data } from "../App";
+
+const columns = [
+  {
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Range",
+    dataIndex: "range",
+    key: "range",
+  },
+  {
+    title: "Price",
+    dataIndex: "price",
+    key: "price",
+  },
+];
 
 const Result = (props: Data) => {
   const [total, setTotal] = useState<number>(0);
+  const [dataSource, setDataSource] = useState([]);
   const { budget, sanitaryProducts, floorTilings, bathroomSize } = props;
 
+  // calculating the total
   useEffect(() => {
     let calculateTotal = 0;
     if (sanitaryProducts?.length) {
@@ -13,10 +34,25 @@ const Result = (props: Data) => {
       }
     }
     if (floorTilings?.material) {
-      calculateTotal += floorTilings?.material?.price;
+      calculateTotal += floorTilings?.material?.price * bathroomSize;
     }
     setTotal(calculateTotal);
   }, [sanitaryProducts, floorTilings, bathroomSize]);
+
+  // changing the data into an array for the table
+  useEffect(() => {
+    const data = [];
+    if (sanitaryProducts?.length) {
+      data.push(sanitaryProducts);
+    }
+    if (floorTilings?.material) {
+      data.push({
+        ...floorTilings.material,
+        price: floorTilings.material.price * bathroomSize,
+      });
+    }
+    setDataSource(data);
+  }, [bathroomSize, floorTilings, sanitaryProducts]);
 
   if (!sanitaryProducts?.length && !floorTilings?.material) {
     return (
@@ -28,39 +64,26 @@ const Result = (props: Data) => {
   }
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <td>Item</td>
-          <td>Range</td>
-          <td>Price</td>
-        </tr>
-      </thead>
-      <tbody>
-        {sanitaryProducts?.length &&
-          sanitaryProducts.map((product, index) => (
-            <tr key={index}>
-              <td>{product.name}</td>
-              <td>{product.range}</td>
-              <td>{product.price}</td>
-            </tr>
-          ))}
-        {floorTilings && (
-          <tr>
-            <td>{floorTilings.material?.name}</td>
-            <td>{floorTilings.material?.range}</td>
-            <td>{floorTilings.material?.price}</td>
-          </tr>
-        )}
-        <tr>
-          <td>{budget !== null && `Budget: ${budget}`}</td>
-          <td />
-          <td>
-            <span className={budget >= total ? "green" : "red"}> {total}</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <>
+      <Space size="large" direction="vertical">
+        <Table
+          className="result"
+          columns={columns}
+          pagination={false}
+          dataSource={dataSource}
+        />
+        <Row>
+          <Col span={12} className="text-left">
+            {budget && <p>Budget: ${budget}</p>}
+          </Col>
+          <Col span={12} className="text-right">
+            <p className={budget ? (budget >= total ? "green" : "red") : ""}>
+              Total price: ${total}
+            </p>
+          </Col>
+        </Row>
+      </Space>
+    </>
   );
 };
 

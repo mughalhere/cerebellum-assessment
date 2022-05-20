@@ -2,7 +2,42 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 80vh;
+}
+
+.header {
+  background-color: #4191f7 !important;
+  margin: 10px 20px !important;
+  border-radius: 10px;
+}
+
+.header .ant-page-header-heading {
+  justify-content: center !important;
+}
+
+.header .ant-page-header-heading-title {
+  color: white !important;
+}
+
+.flex-centered {
+  display: flex !important;
+  justify-content: center;
+}
+
+.result {
+  width: 40vw;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
 }
 
 .green {

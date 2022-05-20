@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import "antd/dist/antd.css";
 
 // ------ FORMS ------
 import Budget from "./forms/Budget";
@@ -9,6 +10,7 @@ import SanitaryProducts, {
 import FloorTiling, { Material } from "./forms/FloorTiling";
 import BathroomSize from "./forms/BathroomSize";
 import Result from "./forms/Result";
+import { PageHeader } from "antd";
 
 export enum FormEnum {
   BUDGET = "budget",
@@ -83,21 +85,24 @@ const App = (): JSX.Element => {
   };
 
   return (
-    <div className="contentRoot">
-      <div>
-        {
+    <>
+      <PageHeader className="header" title="Cerebellum Assessment" />
+      <div className="contentRoot">
+        <div>
           {
-            [FormEnum.BUDGET]: <Budget handleNext={handleNext} />,
-            [FormEnum.SANITARYPRODUCTS]: (
-              <SanitaryProducts handleNext={handleNext} />
-            ),
-            [FormEnum.FLOORTILING]: <FloorTiling handleNext={handleNext} />,
-            [FormEnum.BATHROOMSIZE]: <BathroomSize handleNext={handleNext} />,
-            [FormEnum.RESULT]: <Result {...state.data} />,
-          }[activeForm]
-        }
+            {
+              [FormEnum.BUDGET]: <Budget handleNext={handleNext} />,
+              [FormEnum.SANITARYPRODUCTS]: (
+                <SanitaryProducts handleNext={handleNext} />
+              ),
+              [FormEnum.FLOORTILING]: <FloorTiling handleNext={handleNext} />,
+              [FormEnum.BATHROOMSIZE]: <BathroomSize handleNext={handleNext} />,
+              [FormEnum.RESULT]: <Result {...state.data} />,
+            }[activeForm]
+          }
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

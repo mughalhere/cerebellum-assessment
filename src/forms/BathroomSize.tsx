@@ -1,3 +1,4 @@
+import { Button, Space } from "antd";
 import { FormEnum, Data } from "../App";
 
 interface BathroomSizeProps {
@@ -11,10 +12,18 @@ const BathroomSize = ({ handleNext }: BathroomSizeProps) => {
 
   return (
     <>
-      <p>Please select your bathroom size ?</p>
-      <button onClick={() => handleClick(9)}>Small</button>
-      <button onClick={() => handleClick(12)}>Medium</button>
-      <button onClick={() => handleClick(16)}>Large</button>
+      <h3 className="text-center">Please select your bathroom size ?</h3>
+      <Space>
+        <Button type="primary" onClick={() => handleClick(9)}>
+          Small
+        </Button>
+        <Button type="primary" onClick={() => handleClick(12)}>
+          Medium
+        </Button>
+        <Button type="primary" onClick={() => handleClick(16)}>
+          Large
+        </Button>
+      </Space>
     </>
   );
 };

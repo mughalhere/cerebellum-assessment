@@ -1,4 +1,5 @@
-import { useState, ChangeEvent } from "react";
+import { useState } from "react";
+import { Divider, Radio, RadioChangeEvent, Button, message } from "antd";
 import { FormEnum, PriceRange, Data } from "../../App";
 import Toilet from "./Toilet";
 import Sink from "./Sink";
@@ -58,7 +59,7 @@ const SanitaryProducts = ({
     }));
   };
 
-  const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleRadioChange = (event: RadioChangeEvent) => {
     setState((current) => ({
       ...current,
       option: event.target.id === "yes",
@@ -75,6 +76,8 @@ const SanitaryProducts = ({
       } else {
         handleNext(FormEnum.FLOORTILING, {});
       }
+    } else {
+      message.error("Please select an option");
     }
   };
 
@@ -96,23 +99,26 @@ const SanitaryProducts = ({
           [StepsEnum.CHOICE]: (
             <>
               <p>Do you want to change sanitary products ?</p>
-              <label htmlFor="yes">Yes</label>
-              <input
+              <Radio
                 id="yes"
                 type="radio"
-                name="option"
+                checked={option === true}
                 onChange={handleRadioChange}
-              />
-              <br />
-              <label htmlFor="No">No</label>
-              <input
+              >
+                Yes
+              </Radio>
+              <Radio
                 id="No"
                 type="radio"
-                name="option"
+                checked={option === false}
                 onChange={handleRadioChange}
-              />
-              <br />
-              <button onClick={handleButtonClick}>Next</button>
+              >
+                No
+              </Radio>
+              <Divider />
+              <Button type="primary" onClick={handleButtonClick}>
+                Next
+              </Button>
             </>
           ),
           [StepsEnum.TOILET]: <Toilet handleClick={handleClick} />,

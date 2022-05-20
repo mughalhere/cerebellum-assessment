@@ -1,3 +1,4 @@
+import { Button, Space } from "antd";
 import { StepsEnum, SanitaryProductData } from "./index";
 import { RangeEnum } from "../../App";
 
@@ -11,37 +12,42 @@ interface SinkProps {
 const Sink = ({ handleClick }: SinkProps) => {
   return (
     <>
-      <p>Select your Sink</p>
-      <button
-        onClick={() =>
-          handleClick(
-            { name: StepsEnum.SINK, price: 350, range: RangeEnum.ECONOMY },
-            StepsEnum.BATHTUB
-          )
-        }
-      >
-        Economy
-      </button>
-      <button
-        onClick={() =>
-          handleClick(
-            { name: StepsEnum.SINK, price: 700, range: RangeEnum.STANDARD },
-            StepsEnum.BATHTUB
-          )
-        }
-      >
-        Standard
-      </button>
-      <button
-        onClick={() =>
-          handleClick(
-            { name: StepsEnum.SINK, price: 1500, range: RangeEnum.PREMIUM },
-            StepsEnum.BATHTUB
-          )
-        }
-      >
-        Premium
-      </button>
+      <h3 className="text-center">Select your Sink</h3>
+      <Space>
+        <Button
+          type="primary"
+          onClick={() =>
+            handleClick(
+              { name: StepsEnum.SINK, price: 350, range: RangeEnum.ECONOMY },
+              StepsEnum.BATHTUB
+            )
+          }
+        >
+          Economy
+        </Button>
+        <Button
+          type="primary"
+          onClick={() =>
+            handleClick(
+              { name: StepsEnum.SINK, price: 700, range: RangeEnum.STANDARD },
+              StepsEnum.BATHTUB
+            )
+          }
+        >
+          Standard
+        </Button>
+        <Button
+          type="primary"
+          onClick={() =>
+            handleClick(
+              { name: StepsEnum.SINK, price: 1500, range: RangeEnum.PREMIUM },
+              StepsEnum.BATHTUB
+            )
+          }
+        >
+          Premium
+        </Button>
+      </Space>
     </>
   );
 };
