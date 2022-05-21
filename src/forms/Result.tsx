@@ -43,7 +43,7 @@ const Result = (props: Data) => {
   useEffect(() => {
     const data = [];
     if (sanitaryProducts?.length) {
-      data.push(sanitaryProducts);
+      data.push(...sanitaryProducts);
     }
     if (floorTilings?.material) {
       data.push({
